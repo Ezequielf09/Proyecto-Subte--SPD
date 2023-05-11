@@ -8,68 +8,77 @@
  * Fleitas Ezequiel
  * Yapura Franco
 
-## Proyecto: Semáforo para no videntes	
+## Proyecto: Estacion de subte
 
 ![Arduino con semáforo](imagen.png "Foto de arduino")
 
 ### Descripción
 
-El proyecto conecta 4 luces led de 3 colores distintos(rojo, amarillo y verde) para formar un semáforo y también se le conecta un piezo para generar sonidos acoplados al semáforo
+El proyecto se trata Deberá mostrar los leds por estación y el número de estación en el display 7 segmentos y deberá sonar una vez que llegue a cada estación con el buzzer. Pero antes de todo eso necesitamos el botón para poder encender el sistema.
+
 
 ### 👉 Función principal	👈
 
-La función principal se encarga de vincular el encendido de la led de un color específico con el sonido del piezo a una frecuencia determinada para que cada color y sonido tenga su funcion en base al tiempo especificado
+ El objetivo es implementar un sistema que brinde información visual y auditiva al usuario sobre las estaciones de subte a medida que se acerca a su destino, utilizando un display de 7 segmentos para mostrar la estación actual, LEDs para indicación visual y un buzzer para generar sonidos únicos para cada estación.
 
+---
+El sistema comienza apagado y espera a que se presione un botón para iniciar su funcionamiento.
 
-La funcion "Semaforo" iniciará con el for para encender el led rojo
-e iniciar el piezo a la frecuencia indicada para luego esperar 1 segundo,
-esto se repite 30 veces, logrando los 30 segundos
-Luego pasa al amarillo, en el cual apaga al anterior y suena el piezo
-a una fecuencia distinta, para luego esperar dos segundos, repitiendolo
-3 veces, logrando los 5 segundos(aprox)
-Luego pasa al verde, que apaga al anterior y solo se queda prendido
-45 segundos (ya que no tiene piezo y por lo tanto no necesita un for),
-Por último, se ejecuta una vez más el amarillo, exactamente igual que antes,
-Una vez terminados todos el loop comienza de nuevo y se ejecuta 
-a la perfección. Epic.
+Una vez que se presiona el botón, el sistema se enciende y comienza a mostrar en un display de 7 segmentos la estación de subte a la que se está llegando.
+
+Al mismo tiempo, se encienden LEDs correspondientes a la estación actual.
+
+Cada vez que se llega a una estación, el buzzer emite un sonido específico para esa estación,por lo que el usuario podra escuchar por sonido en que estacion estara.
+
+Después de permanecer en una estación durante un período de tiempo determinado (por ejemplo, 2 segundos), el sistema pasa a la siguiente estación.
+
+El proceso de mostrar la estación actual, encender el LED correspondiente, reproducir el sonido y avanzar a la siguiente estación se repite hasta que se alcanza la última estación, luego hace una vuelta hasta que una vez llega a la primera estacion vuelve normal como siempre
 
 ### 💻 Porcion del codigo 💻
 
 
 ```c++
 
-void Semaforo()
+void loop()
 {
-  for(int i=0;i<30;i++)
-  { 
-    digitalWrite(led_rojo,1); 
-    digitalWrite(led_amarillo,0); 
-    digitalWrite(led_verde,0); 
-    tone(Piezo,1000,500);
-    delay(1000); 
+  if (digitalRead(PULSADOR) == LOW){
+    while (digitalRead(PULSADOR) != LOW){
+ 		prendeYApaga(constitucion ,0,1,1,0,0,1,1,500);
+    	prendeYApaga(sanjuan ,1,1,1,1,0,0,1,350);
+    	prendeYApaga(independencia ,1,1,0,1,1,0,1,200);
+    	prendeYApaga(moreno ,0,1,1,0,0,0,0,100);
+      	prendeYApaga(independencia ,1,1,0,1,1,0,1,200);
+      	prendeYApaga(sanjuan ,1,1,1,1,0,0,1,350);
+    }  
   }
- for(int i=0;i<3;i++) 
-  {
-    digitalWrite(led_rojo,0); 
-    digitalWrite(led_amarillo,1);
-    tone(Piezo,100,50);
-    delay(2000);
-  }
-  digitalWrite(led_amarillo,0); 
-  digitalWrite(led_verde,1); 
-  delay(45000); 
-  for(int i=0;i<3;i++) 
-  {
-    digitalWrite(led_verde,0);
-    digitalWrite(led_amarillo,1);
-    tone(Piezo,100,50);
-    delay(2000); 
-  }
+}
+
+
+void prendeYApaga(int led, int a, int b ,int c, int d , int e, int f,int g ,int sonido){
+  digitalWrite(led , HIGH);
+  digitalWrite(A , a);
+  digitalWrite(B , b);
+  digitalWrite(C , c);
+  digitalWrite(D , d);
+  digitalWrite(E , e);
+  digitalWrite(F , f);
+  digitalWrite(G , g);
+  tone(piezo, sonido, 500);
+  delay(3000);
+  digitalWrite(led , LOW);
+  digitalWrite(A , 0);
+  digitalWrite(B , 0);
+  digitalWrite(C , 0);
+  digitalWrite(D , 0);
+  digitalWrite(E , 0);
+  digitalWrite(F , 0);
+  digitalWrite(G , 0);
+    
 }
 
 ```
 
 ## 📌 Link al proyecto 📌
 
-[tinkercard.com](https://www.tinkercad.com/things/37ccMppQhB1-1j-spd-ejercicio-dojos/editel?sharecode=3MVdRKb0hAKTQ7lR3MnpTVfMYtzgUW0z4c4jHSscBUM "Link al arduino")
+[tinkercard.com](https://www.tinkercad.com/things/h3a26eB00mS "Link al arduino")
 
